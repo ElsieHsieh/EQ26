@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./style/index.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
   $(function(){
@@ -45,6 +46,13 @@ startTime();
 
 <body>
 
+<script type="text/javascript">
+  function rund3() {
+      var svgCon = d3.select(".d3pic").append("svg")
+  }
+
+</script>
+
 <div class="header">
   <div class="nav" id="logo">Logo</div>
   <div class="nav" id="clock"></div>
@@ -60,8 +68,6 @@ startTime();
     
 
   <p>2016年2月6日上午3點57分，發生震央位於高雄市美濃區的大地震，對於臺灣南部造成嚴重災情。為了讓防災人員及民眾快速且清楚掌握災害狀況，本平臺蒐整與分析來自網路上的災情資訊，以視覺化的圖表作呈現.....未完待續</p>
-
-
   </div>
 </div>
 <div class="chart">
@@ -69,6 +75,7 @@ startTime();
     <button class="myButton">PTT</button>
     <button class="myButton">FB</button>
     <button class="myButton">電子新聞</button>
+    <div class="d3pic"></div>
   </div>
   <div> 
 
