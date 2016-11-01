@@ -107,17 +107,14 @@ function rund3() {
         })
         .style("stroke", function(d) {
             return d.stroke
-        })
-        .style("stroke-width", function(d) {
-            return d.stroke - width
         });
 
         var mouthline = d3.line()
             .x(function(d) {
-                return x(d.x);
+                return d.x;
             })
             .y(function(d) {
-                return y(d.y);
+                return d.y;
             });
 
         var mouthgraph = svgContainer.append("path").attr("d", mouthline(points)).style("fill",none).style("stroke",black).style("stroke-width",2);
