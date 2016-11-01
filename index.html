@@ -31,8 +31,7 @@
 <body>
     <script type="text/javascript">
 
-
-        function rund3() {
+        $(function () {
 
             var jsonCircles = [{
                 "x_axis": 100,
@@ -94,8 +93,9 @@
                 });
 
             var polylines = svgContainer.append('polyline').attr('points', '50,160 65,173 80,180 120,180 135,173 150,160').style('fill', 'none').style('stroke', 'black').style('stroke-width', 2);
-        }
-    rund3();
+        });
+
+      
     </script>
     <div class="header">
         <div class="nav" id="logo">Logo</div>
