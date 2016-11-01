@@ -86,6 +86,11 @@
             "stroke-width": "1"
         }]
 
+        var mouth = svgContainer.append("polyline") // attach a polyline
+            .style("stroke", "black") // colour the line
+            .style("fill", "none") // remove any fill colour
+            .attr("points", "50,160 65,173 80,180 120,180 135,173 150,160"); // x,y points
+
         var svgContainer = d3.select(".d3pic").append("svg")
             .attr("width", 300)
             .attr("height", 300);
@@ -115,10 +120,7 @@
                 return d.stroke - width
             });
 
-        svgContainer.append("polyline") // attach a polyline
-            .style("stroke", "black") // colour the line
-            .style("fill", "none") // remove any fill colour
-            .attr("points", "50,160 65,173 80,180 120,180 135,173 150,160"); // x,y points
+        
     });
     </script>
 </body>
