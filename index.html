@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>0206地震災情資訊平臺</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/index.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript">
+  $(function(){
+        $("#gotop").click(function(){
+            jQuery("html,body").animate({
+                scrollTop:0
+            },1000);
+        });
+        $(window).scroll(function() {
+            if ( $(this).scrollTop() > 300){
+                $('#gotop').fadeIn("fast");
+            } else {
+                $('#gotop').stop().fadeOut("fast");
+            }
+        });
+    });
+
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('clock').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};
+    return i;
+}
+startTime();
+</script>
+
+</head>
+
+<body>
+
+<div class="header">
+  <div class="nav" id="logo">Logo</div>
+  <div class="nav" id="clock"></div>
+  <a class="nav" href="#">Link</a>
+  <a class="nav" href="#">Link</a>
+  <a class="nav" href="#">Link</a>
+
+</div>
+<div class="hbottom"></div>
+<div class="block">
+  <div class="block1" id="title">0206地震災情資訊平臺</div>
+  <div class="block1" id="intro">
+    
+
+  <p>2016年2月6日上午3點57分，發生震央位於高雄市美濃區的大地震，對於臺灣南部造成嚴重災情。為了讓防災人員及民眾快速且清楚掌握災害狀況，本平臺蒐整與分析來自網路上的災情資訊，以視覺化的圖表作呈現.....未完待續</p>
+
+
+  </div>
+</div>
+<div class="chart">
+  <div class="chart-box left">
+    <button class="myButton">PTT</button>
+    <button class="myButton">FB</button>
+    <button class="myButton">電子新聞</button>
+  </div>
+  <div> 
+
+<svg width="300" height="300">
+ 
+ <circle cx="100" cy="100" r="100" stroke="black" stroke-width="1" fill="#00ff7f" />
+<circle cx="100" cy="90" r="60" stroke="black" stroke-width="1" fill="white" />
+<circle cx="100" cy="90" r="40" stroke="black" stroke-width="1" fill="#008000" />
+<circle cx="100" cy="90" r="30" stroke="black" stroke-width="1" fill="black" />
+<polyline points="50,160 65,173 80,180 120,180 135,173 150,160"
+  style="fill:none;stroke:black;stroke-width:2" />
+
+</svg>
+</div>
+<div class="text">文字敘述
+
+</div>
+
+<div class="footer"></div>
+<div id="gotop">˄</div>
+
+
+</body>
