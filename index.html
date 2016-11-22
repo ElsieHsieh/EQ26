@@ -26,15 +26,15 @@
     });
 
     $(function() {
-       var title = $("#logo");
+       var title = $("#toptitle");
     $(window).scroll(function(){
       //more then or equals to
       if($(this).scrollTop() > 100 ){
-          $("#logo").show();
+          $("#toptitle").show();
 
       //less then 100px from top
       } else {
-         $("#logo").hide();
+         $("#toptitle").hide();
 
       }
     });
@@ -49,7 +49,8 @@
 <body>
 
     <div class="header">
-        <div class="nav" id="logo">0206地震災情資訊平臺</div>
+    <div class="nav" id="logo">Logo</div>
+        <div class="nav" id="toptitle">0206地震災情資訊平臺</div>
         <a class="nav" href="#">Link</a>
         <a class="nav" href="#">Link</a>
         <a class="nav" href="#">Link</a>
