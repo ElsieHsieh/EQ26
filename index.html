@@ -25,18 +25,24 @@
         });
     });
 
-    var title = $("#logo");
+    $(function() {
+       var title = $("#logo");
     $(window).scroll(function(){
       //more then or equals to
-      if($(window).scrollTop() >= 100 ){
-           title.show();
+      if($(this).scrollTop() > 100 ){
+          $("#logo").show();
 
       //less then 100px from top
       } else {
-         title.hide();
+         $("#logo").hide();
 
       }
     });
+    });
+
+
+
+    
     </script>
 </head>
 
