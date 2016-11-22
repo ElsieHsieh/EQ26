@@ -1,33 +1,55 @@
-function test(){
-var width = 1024;
-var height = 768;
-var ctrl = d3.select(".text").append("svg").attr("width", width).attr("height", height);
-d3.csv("https://pecu.github.io/D3/stocks.csv",
-      function(data) { console.log(data); });
-d3.csv("https://pecu.github.io/D3/HistoricalQuotes.csv", 
-	function(data)
-	{
-		var ln = data.length;
-		console.log(data);
-		var maxy = d3.max(data, function(d){ return d.close; });
-		var lines = d3.line().x(function(d,i){return i*(width/ln);}).y(function(d){return height-d.close*(height/maxy)});
-		ctrl.append("path").attr("d", function(d){
-			return "M0,"+height+"L"+width+","+height;
-		}).attr("stroke", "black").attr("fill", "none");
-		ctrl.append("path").attr("d", function(d){
-			return "M0,0"+"L0,"+height;
-		}).attr("stroke", "black").attr("fill", "none");
-		ctrl.append("path").data([data]).attr("d", lines).attr("stroke", "red").attr("fill", "none");
-		var x = d3.scaleTime().range([0, width]);
-		var y = d3.scaleLinear().range([height, 0]);	
-		x.domain(d3.extent(data, function(d) { return d.date; }));
-		y.domain([0, maxy]);
-		ctrl.append("g")
-      	.attr("transform", "translate(0," + height + ")")
-      	.call(d3.axisBottom(x));
-  		ctrl.append("g")
-      	.call(d3.axisLeft(y));
-	}
+function test() {
 
-);
+    // set the dimensions and margins of the graph
+    var margin = { top: 20, right: 20, bottom: 30, left: 50 },
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+    // parse the date / time
+    var parseTime = d3.timeParse("%d-%b-%y");
+    // set the ranges
+    var x = d3.scaleTime().range([0, width]);
+    var y = d3.scaleLinear().range([height, 0]);
+    // define the line
+    var valueline = d3.line()
+        .x(function(d) {
+            return x(d.date); })
+        .y(function(d) {
+            return y(d.close); });
+    // append the svg obgect to the body of the page
+    // appends a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    var svg = d3.select(".text").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+    // Get the data
+    d3.csv("https://pecu.github.io/D3/stocks.csv", function(error, data) {
+        if (error) throw error;
+        // format the data
+        data.forEach(function(d) {
+            d.date = parseTime(d.date);
+            d.close = +d.close;
+        });
+        // Scale the range of the data
+        x.domain(d3.extent(data, function(d) {
+            return d.date; }));
+        y.domain([0, d3.max(data, function(d) {
+            return d.close; })]);
+        // Add the valueline path.
+        svg.append("path")
+            .data([data])
+            .attr("class", "line")
+            .attr("d", valueline)
+            .attr("stroke", "steelblue").attr("fill", "none").attr("stroke-width",
+                "2px");
+        // Add the X Axis
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+        // Add the Y Axis
+        svg.append("g")
+            .call(d3.axisLeft(y));
+    });
 }
