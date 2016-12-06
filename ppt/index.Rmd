@@ -1,7 +1,0 @@
----
-title: "Disaster"
-author: "Elsie"
-date: "2016年12月6日"
-output: html_document
----
-
