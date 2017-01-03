@@ -1,0 +1,105 @@
+html,
+body {
+  background-color: rgba(255, 0, 0, 0.0) !important;
+  font-family: "Microsoft JhengHei" !important;
+
+}
+
+#gotop {
+  display: none;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px 15px;
+  font-size: 20px;
+  background: #777;
+  color: white;
+  cursor: pointer;
+  z-index:100;
+}
+.leaflet-container {
+  background-color: rgba(255, 0, 0, 0.0) !important;
+}
+
+path {
+  stroke: white;
+}
+
+path:hover {
+  opacity: 0.5;
+}
+
+rect:hover {
+  fill: #666666;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+#tableName{
+  margin-left:10px;
+  font-size:20px;
+}
+
+
+td.dc-table-label {
+  background-color: #d9edf7
+}
+
+a.reset:link,
+a.reset:visited {
+
+}
+
+a.reset:hover,
+a.reset:active {
+ 
+}
+
+div.data_count {
+  color: #08c;
+  margin-top: 80px;
+  margin-left: 12px;
+}
+
+#filter-data-count {
+  font-size: 70px;
+}
+
+#dis_time .x.axis text {
+  text-anchor: end !important;
+  transform: rotate(-15deg);
+}
+
+
+
+.map,
+#map {
+  margin: auto;
+}
+
+table{
+  font-size: 16px !important;
+}
+
+.dc-table-column._4{
+  width: 80px !important;
+
+}
+.dc-table-column._1{
+ width: 80px !important;
+}
+.dc-table-column._0{
+ width: 70px !important;
+}
