@@ -162,10 +162,10 @@
 
 
             var timechart = dc.barChart("#dis_time")
-                .width(650)
+                .width(700)
                 .height(250)
                 .transitionDuration(500)
-                .margins({ top: 7, right: 0, bottom: 47, left: 25 })
+                .margins({ top: 10, right: 0, bottom: 47, left: 35 })
                 .dimension(hourdim)
                 .group(flood1Group, "積淹水災情")
                 .stack(road1Group, "道路、隧道災情")

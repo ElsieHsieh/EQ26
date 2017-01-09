@@ -8,8 +8,8 @@ body {
 #gotop {
   display: none;
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: 530px;
+  top: 60px;
   padding: 10px 15px;
   font-size: 20px;
   background: #777;
@@ -82,8 +82,14 @@ div.data_count {
   transform: rotate(-15deg);
 }
 
+.reset{
+  color: #ffd700 !important;
 
+}
 
+a.reset:hover {
+    color: white !important;
+}
 .map,
 #map {
   margin: auto;
