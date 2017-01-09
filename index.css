@@ -1,6 +1,6 @@
 html,
 body {
-  background-color: rgba(255, 0, 0, 0.0) !important;
+  
   font-family: "Microsoft JhengHei" !important;
 
 }
@@ -102,4 +102,8 @@ table{
 }
 .dc-table-column._0{
  width: 70px !important;
+}
+
+.piecolumn{
+  padding-right: 5px !important;
 }

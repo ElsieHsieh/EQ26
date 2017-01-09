@@ -21,7 +21,7 @@
     function draw() {
 
         var csv = d3.dsv(",", "text/csv;charset=big5");
-        csv("MEGI_landslide.csv", function(data) {
+        csv("Megi.csv", function(data) {
 
             var timeAllparse = d3.time.format("%Y-%m-%e %H:%M").parse,
                 dateformat = d3.time.format("%Y/%m/%d"),
@@ -34,31 +34,34 @@
                 d.geo1 = d.Lat + "," + d.Lon;
 
                 var distype = d["DisasterType"].split("&");
-                var debris = 0; //debris 土石流 slope 邊坡坍方 rock 土石崩落 road 道路中斷 roadbed 路基流失
-                var slope = 0;
-                var rock = 0;
+                
+                var flood = 0; //積淹水災情 道路、隧道災情 土石災情 橋梁災情 其他災情
                 var road = 0;
-                var roadbed = 0;
-                if (distype.indexOf("土石流") > -1) {
-                    debris = debris + 1;
+                var landslide = 0;
+                var bridge = 0;
+
+
+             
+                if (distype.indexOf("土石災情") > -1) {
+                    landslide = landslide + 1;
                 }
-                if (distype.indexOf("邊坡坍方") > -1) {
-                    slope = slope + 1;
+                if (distype.indexOf("橋梁災情") > -1) { 
+
+                    bridge = bridge + 1;
                 }
-                if (distype.indexOf("土石崩落") > -1) {
-                    rock = rock + 1;
+                if (distype.indexOf("積淹水災情") > -1) { 
+
+                    flood = flood + 1;
                 }
-                if (distype.indexOf("道路阻斷") > -1) {
+                if (distype.indexOf("道路、隧道災情") > -1) { 
+
                     road = road + 1;
                 }
-                if (distype.indexOf("路基流失") > -1) {
-                    roadbed = roadbed + 1;
-                }
-                d.debris1 = debris;
-                d.slope1 = slope;
-                d.rock1 = rock;
+            
+                d.landslide1 = landslide;
+                d.bridge1 = bridge;
+                d.flood1 = flood;
                 d.road1 = road;
-                d.roadbed1 = roadbed;
 
             });
 
@@ -85,23 +88,26 @@
             var maxTime = timedim.top(1)[0].parseTime;
 
             var disastertypes = ndx.dimension(function(d) {
-                return d["DisasterType"]; });
+                return d["DisasterType"] ; }); //return d["DisasterType"]?d["DisasterType"]:"其他災情"; });
             var disastertypesGroup = disastertypes.group().reduceCount();
-            var debrisGroup = hourdim.group().reduceSum(function(d) {
-                return d.debris1; });
-            var slopeGroup = hourdim.group().reduceSum(function(d) {
-                return d.slope1; });
-            var rockGroup = hourdim.group().reduceSum(function(d) {
-                return d.rock1; });
-            var roadGroup = hourdim.group().reduceSum(function(d) {
+
+
+            
+            var landslide1Group = hourdim.group().reduceSum(function(d) {
+                return d.landslide1; });
+            var bridge1Group = hourdim.group().reduceSum(function(d) {
+                return d.bridge1; });
+            var flood1Group = hourdim.group().reduceSum(function(d) {
+                return d.flood1; });
+            var road1Group = hourdim.group().reduceSum(function(d) {
                 return d.road1; });
-            var roadbedGroup = hourdim.group().reduceSum(function(d) {
-                return d.roadbed1; });
 
-            var colorScale = d3.scale.ordinal().domain(["土石流", "邊坡坍方", "土石崩落", "道路阻斷", "路基流失"])
-                .range(["#ee4035", "#f37736", "#fcec4d", "#7bc043", "#0392cf"]);
+            //積淹水災情 道路、隧道災情 土石災情 橋梁災情 其他災情
 
-            //以上順序調動
+            var colorScale = d3.scale.ordinal().domain(["積淹水災情", "道路、隧道災情", "土石災情", "橋梁災情"])
+                .range(["#d7301f", "#ffbe4f", "#66cccc", "#4b86b4"]);
+
+            var countycolor = d3.scale.ordinal().range(["#045a8d", "#2b8cbe", "#74a9cf", "#a6bddb", "#d9d9d9","#d0d1e6"]);
             
 
             //cluster map - leaflet
@@ -133,10 +139,10 @@
 
             //county row chart
             var countyRowChart = dc.rowChart("#chart-row-county")
-                .width(380)
-                .height(220)
+                .width(420)
+                .height(200)
                 .margins({
-                    top: 20,
+                    top: 5,
                     left: 55,
                     right: 0,
                     bottom: 20
@@ -144,7 +150,9 @@
                 .dimension(countyDim)
                 .group(countyDisastersGroup, "Disasters")
                 .labelOffsetX(-45)
-                .colors(d3.scale.category10())
+                .colors(function(countyDim) {
+                    return countycolor(countyDim);
+                })
                 .elasticX(true)
                 .controlsUseVisibility(true)
                 .ordering(function(d) {
@@ -152,34 +160,17 @@
                 })
                 .rowsCap(5);
 
-            //filter and total count number
-            var filterCount = dc.dataCount('.filter-count')
-                .dimension(ndx)
-                .group(ndxGroupAll) //更改
-                .html({
-                    some: '%filter-count'
-                });
 
-            var totalCount = dc.dataCount('.total-count')
-                .dimension(ndx)
-                .group(ndxGroupAll) //更改
-                .html({
-                    some: '/%total-count'
-                });
-
-            // time bar chart
-            // debrisGroup 土石流 slopeGroup 邊坡坍方 rockGroup 土石崩落 roadGroup 道路中斷 roadbedGroup 路基流失
             var timechart = dc.barChart("#dis_time")
                 .width(650)
                 .height(250)
                 .transitionDuration(500)
                 .margins({ top: 7, right: 0, bottom: 47, left: 25 })
                 .dimension(hourdim)
-                .group(debrisGroup, "土石流")
-                .stack(slopeGroup, "邊坡坍方")
-                .stack(rockGroup, "土石崩落")
-                .stack(roadGroup, "道路阻斷")
-                .stack(roadbedGroup, "路基流失")
+                .group(flood1Group, "積淹水災情")
+                .stack(road1Group, "道路、隧道災情")
+                .stack(landslide1Group, "土石災情")
+                .stack(bridge1Group, "橋梁災情")
                 .colors(function(disastertype) {
                     return colorScale(disastertype); })
                 .elasticY(true)
@@ -189,7 +180,7 @@
                 .xAxisLabel("Date")
                 .centerBar(true)
                 .xUnits(function(d) {
-                    return 100 })
+                    return 70 })
                 .brushOn(true)
                 .xAxis().tickFormat(d3.time.format('%m/%d %H:%M'));
 
@@ -210,7 +201,7 @@
                     function(d) {
                         return d.tt; },
                     function(d) {
-                        return d.disastertype; },
+                        return d.DisasterSubType; },
                     function(d) {
                         return d.situation; },
                 ])
