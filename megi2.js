@@ -35,7 +35,7 @@
 
                 var distype = d["DisasterType"].split("&");
                 
-                var flood = 0; //積淹水災情 道路、隧道災情 土石災情 橋梁災情 其他災情
+                var flood = 0;
                 var road = 0;
                 var landslide = 0;
                 var bridge = 0;
@@ -91,6 +91,8 @@
                 return d["DisasterType"] ; }); //return d["DisasterType"]?d["DisasterType"]:"其他災情"; });
             var disastertypesGroup = disastertypes.group().reduceCount();
 
+            var hourdimGroup = hourdim.group()
+                .reduceCount(function(d) { return d.Time; });
 
             
             var landslide1Group = hourdim.group().reduceSum(function(d) {
@@ -163,16 +165,12 @@
 
             var timechart = dc.barChart("#dis_time")
                 .width(700)
-                .height(250)
+                .height(230)
                 .transitionDuration(500)
                 .margins({ top: 10, right: 0, bottom: 47, left: 35 })
                 .dimension(hourdim)
-                .group(flood1Group, "積淹水災情")
-                .stack(road1Group, "道路、隧道災情")
-                .stack(landslide1Group, "土石災情")
-                .stack(bridge1Group, "橋梁災情")
-                .colors(function(disastertype) {
-                    return colorScale(disastertype); })
+                .group(hourdimGroup)
+                .colors(969696)
                 .elasticY(true)
                 .renderHorizontalGridLines(true)
                 .mouseZoomable(false)
